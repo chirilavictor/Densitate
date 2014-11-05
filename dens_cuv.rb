@@ -1,29 +1,23 @@
-#mai intai citim fisierul unde avem articolul ale carui cuvinte 
-#vrem sa la aflam densitatea
+#mai întâi citim fișierul unde avem articolul ale cărui cuvinte 
+#vrem să le aflăm densitatea
+#am încercat să import cartea lui Mihai dar am aflat că fișierele .pdf se citesc diferit și ar trebui să cercetez mai mult
 articol = File.open("articol.txt", "r"){ |f| f.read.split }
-articol.each { |x| x.downcase! }#le punem intr-un array si le rescriem cu litere mici totodata
-#print articol
+articol.each { |x| x.downcase! }#le punem într-un array și le rescriem cu litere mici totodata
+nr_cuv = articol.count#numărăm câte cuvinte avem în total ca să știm cum să calculăm procentele
 
-#cu metoda injection cream un hash din array-ul nostru unde cheile sunt cuvintele iar valoarea este numarul de aparitii ale acelor cuvinte in articol
+#cu metoda inject creăm un hash din array-ul nostru unde cheile sunt cuvintele iar valoarea este numărul de apariții ale acelor cuvinte în articol
 hash_cuv = articol.inject(Hash.new(0)) { |k,v| k[v] += 1; k }
 #puts hash_cuv
 
-#acum vom crea un nou fisier unde vom pune hash-ul nostru ordonat descrescator
-output = File.new("dens3.txt", "w") 
-output.print hash_cuv.sort_by { |k,v| v }.reverse
+#punem cheile și valorile hash_cuv ordonate după valori în array-ul de array-uri arr2_cuv
+arr2_cuv = hash_cuv.sort_by { |k,v| v }.reverse
+
+#acum vom crea un nou fișier unde vom afișa datele
+output = File.new("dens9.txt", "w") 
+output.puts "Numar total de cuvinte analizate: #{nr_cuv}"
+arr2_cuv.each { #parcurgem arr2_cuv
+	|x|
+	x[2] = x[1] * 100 / nr_cuv #aflăm procentul densității, nu înțeleg de ce nu se memorează cu tot cu decimale
+	output.puts "cuvant: #{x[0]} | nr aparitii #{x[1]} | densitate #{x[2]}%"
+	 }
 output.close
-
-#hash_cuv.sort { |a,b| a[1] <=> b[1] }
-=begin
- hash_cuv.sort_by { |k,v| v }.reverse
- #puts hash_cuv
- h = {
- 	"z" => 9,
- 	"b" => 4,
- 	"c" => 5
- }
-
-h_arr1 = h.keys.sort!#_by { |k, v| v }
-puts h_arr1
-puts h
-=end
