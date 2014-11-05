@@ -13,13 +13,13 @@ hash_cuv = articol.inject(Hash.new(0)) { |k,v| k[v] += 1; k }
 arr2_cuv = hash_cuv.sort_by { |k,v| v }.reverse
 
 #acum vom crea un nou fișier unde vom afișa datele
-output = File.new("dens9.txt", "w") 
+output = File.new("dens17.txt", "w") 
 output.puts "Numar total de cuvinte analizate: #{nr_cuv}"
 i = 1
 arr2_cuv.each { #parcurgem arr2_cuv
 	|x|
-	x[2] = x[1] * 100 / nr_cuv #aflăm procentul densității, nu înțeleg de ce nu se memorează cu tot cu decimale
-	output.puts "#{i}. cuvant: #{x[0]} | nr aparitii #{x[1]} | densitate #{x[2]}%"
+	x[2] = x[1] * 1.0 * 100 / nr_cuv #aflăm procentul densității, nu înțeleg de ce nu se memorează cu tot cu decimale
+	output.puts "#{i}. cuvant: #{x[0]} | nr aparitii #{x[1]} | densitate #{sprintf('%.2f', x[2])}%"
 	 i += 1
 	 }
 output.close
